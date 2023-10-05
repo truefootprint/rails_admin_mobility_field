@@ -33,7 +33,11 @@ module RailsAdminMobilityField
     def tabs
       tabs =
         available_locales.map do |locale|
-          RailsAdminMobilityField::Tab.new(locale, name, validate: submit_action?)
+          RailsAdminMobilityField::Tab.new(
+            locale,
+            name,
+            value: bindings[:object].send("#{name}_#{locale}").present?
+          )
         end.compact
 
       activate_tab(tabs)

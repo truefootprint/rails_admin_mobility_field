@@ -2,11 +2,14 @@
   <ul class="nav nav-tabs" style="margin-top:5px" role='tablist'>
     <% field.tabs.each do |tab| %>
       <li class="nav-item" role="presentation">
-        <%= link_to tab.label, "#", 
+        <%= link_to "#", 
           data: { "bs-toggle": "tab",  "bs-target": "##{tab.id}" }, 
           class: "nav-link #{"show active" if tab.active?}", 
-          role: "tab" 
+          role: "tab" do
         %>
+          <%= tab.label %>
+          <i class="fas <%= tab.filled? ? "fa-check green" : "fa-times danger" %>"></i>
+        <% end %>
       </li>
     <% end %>
   </ul>

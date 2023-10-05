@@ -4,12 +4,12 @@ module RailsAdminMobilityField
   class Tab
     LABEL_KEY = 'admin.mobility_field.tab_label'
 
-    attr_reader :locale, :translation_key
+    attr_reader :locale, :translation_key, :value
 
-    def initialize(locale, translation_key, validate: true)
+    def initialize(locale, translation_key, value: nil)
       @locale = locale
       @translation_key = translation_key
-      @validate = validate
+      @value = value
     end
 
     def id
@@ -34,6 +34,10 @@ module RailsAdminMobilityField
 
     def active?
       @active
+    end
+
+    def filled?
+      @value.present?
     end
   end
 end
