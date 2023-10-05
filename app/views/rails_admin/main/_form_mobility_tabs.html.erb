@@ -1,0 +1,20 @@
+<div class="controls">
+  <ul class="nav nav-tabs" style="margin-top:5px" role='tablist'>
+    <% field.tabs.each do |tab| %>
+      <li class="nav-item" role="presentation">
+        <%= link_to tab.label, "#", 
+          data: { "bs-toggle": "tab",  "bs-target": "##{tab.id}" }, 
+          class: "nav-link #{"show active" if tab.active?}", 
+          role: "tab" 
+        %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<div class="tab-content">
+  <% field.tabs.each do |tab| %>
+    <div class="fields tab-pane <%= "active" if tab.active? %>" id="<%= tab.id %>">
+      <%= form.text_area tab.param_key, class: "form-control" %>
+    </div>
+  <% end %>
+</div>
