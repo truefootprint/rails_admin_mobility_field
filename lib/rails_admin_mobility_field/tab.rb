@@ -4,16 +4,20 @@ module RailsAdminMobilityField
   class Tab
     LABEL_KEY = 'admin.mobility_field.tab_label'
 
-    attr_reader :locale, :translation
+    attr_reader :locale, :translation_key
 
-    def initialize(locale, translation, validate: true)
+    def initialize(locale, translation_key, validate: true)
       @locale = locale
-      @translation = translation
+      @translation_key = translation_key
       @validate = validate
     end
 
     def id
-      ['pane', translation.model_name.param_key, locale].join('-')
+      ['pane', translation_key, locale].join('-')
+    end
+
+    def param_key
+      "#{translation_key}_#{locale}"
     end
 
     def label
@@ -30,14 +34,6 @@ module RailsAdminMobilityField
 
     def active?
       @active
-    end
-
-    def valid?
-      !@validate || translation.valid?
-    end
-
-    def invalid?
-      !valid?
     end
   end
 end

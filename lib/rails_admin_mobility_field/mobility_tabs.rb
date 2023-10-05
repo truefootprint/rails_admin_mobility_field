@@ -5,7 +5,7 @@ require 'rails_admin_mobility_field/tab'
 
 # Custom rails_admin field to add tabs for mobility translations
 module RailsAdminMobilityField
-  class MobilityTabs < RailsAdmin::Config::Fields::Association
+  class MobilityTabs < RailsAdmin::Config::Fields::Base
     RailsAdmin::Config::Fields::Types.register(:mobility_tabs, self)
 
     register_instance_option :partial do
@@ -16,8 +16,14 @@ module RailsAdminMobilityField
       true
     end
 
+    register_instance_option :allowed_methods do
+      # we need to allow every locale specific setter to be called
+      # ex: title_en, title_fr, title_de
+      available_locales.map { |locale| "#{method_name}_#{locale}".to_sym }
+    end
+
     def method_name
-      "#{super}_attributes".to_sym
+      nested_form ? "#{name}_attributes".to_sym : super
     end
 
     def available_locales
@@ -27,8 +33,7 @@ module RailsAdminMobilityField
     def tabs
       tabs =
         available_locales.map do |locale|
-          translation = bindings[:object].translation_for(locale, build_if_missing)
-          RailsAdminMobilityField::Tab.new(locale, translation, validate: submit_action?) if translation
+          RailsAdminMobilityField::Tab.new(locale, name, validate: submit_action?)
         end.compact
 
       activate_tab(tabs)
@@ -42,7 +47,7 @@ module RailsAdminMobilityField
     end
 
     def activate_tab(tabs)
-      opened = tabs.find(&:invalid?) || tabs.first
+      opened = tabs.first
       opened&.active!
     end
   end

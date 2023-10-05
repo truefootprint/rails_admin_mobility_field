@@ -22,7 +22,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rails', '>= 5.0'
   spec.add_dependency 'rails_admin', '>= 2.0'
 
-  spec.add_dependency 'mobility', '~> 0.8'
+  # for now it works only with 1.3.0.rc1
+  spec.add_dependency 'mobility'
 
   spec.add_development_dependency 'capybara', '~> 3.29'
   spec.add_development_dependency 'pry'
